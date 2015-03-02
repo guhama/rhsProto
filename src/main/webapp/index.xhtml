@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+ 
+<h:head>
+	<title>Add Patient</title>
+	<link type="text/css" rel="stylesheet" href="/project/faces/javax.faces.resource/theme.css?ln=primefaces-glass-x" />
+</h:head>
+<h:body>
+	
+	<h1>Welcome to RHS PrimeFaces.../ JPA</h1>
+	<p:growl id="messages"/>
+	
+	<p:dataTable var="pat" value="#{patientController.patients}" id="patDT" style="width:70%;">
+     	<p:column style="text-align: left;">
+     		<f:facet name="header">
+        		<h:outputText value="Patient Name" />
+        	</f:facet>
+        	<h:outputText value="#{pat.name}" />
+    	</p:column>
+ 
+    	<p:column headerText="Age">
+        	<h:outputText value="#{pat.age}" />
+    	</p:column>
+    	
+    	<p:column headerText="">
+    		<h:form>
+        		<p:commandButton value="Modify" actionListener="#{patientController.setPatient(pat)}" update=":patForm" styleClass="ui-priority-primary"></p:commandButton>
+        		<p:commandButton value="Remove" actionListener="#{patientController.removePatient(pat)}" update=":patDT,:messages" styleClass="ui-priority-primary">
+        			<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+        		</p:commandButton>
+        		
+        		<p:confirmDialog global="true" closeOnEscape="true">
+        			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+        			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    			</p:confirmDialog>
+        	</h:form>
+    	</p:column>
+    	
+	 </p:dataTable>
+
+	
+	<h:form id="patForm">
+	<br/>
+	<p:focus/>
+    <p:panelGrid columns="2">
+        <p:outputLabel value="Patient Name:"></p:outputLabel>
+        <p:inputText value="#{patientController.patient.name}"></p:inputText>
+        <p:outputLabel value="Patient Age:"></p:outputLabel>
+        <p:inputText value="#{patientController.patient.age}"></p:inputText>
+    </p:panelGrid>
+    <br/>
+    <p:commandButton value="Save Patient" action="#{patientController.savePatient}" update="patForm, :patDT, :messages"></p:commandButton>
+	</h:form>
+ 
+</h:body>
+</html>
+
+
